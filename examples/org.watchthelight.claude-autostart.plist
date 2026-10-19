@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- <wtl> project: legion-reboot | file: examples/org.watchthelight.claude-autostart.plist | author: watchthelight </wtl> -->
+<!-- LaunchAgent: opens Terminal at login with claude-autostart.command. install.sh replaces HOME_DIR with your home. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>org.watchthelight.claude-autostart</string>
+  <key>ProgramArguments</key>
+  <array><string>/usr/bin/open</string><string>-a</string><string>Terminal</string><string>HOME_DIR/.local/bin/claude-autostart.command</string></array>
+  <key>RunAtLoad</key><true/>
+</dict>
+</plist>

@@ -1,0 +1,38 @@
+# <wtl> project: legion-reboot | file: config.example | author: watchthelight </wtl>
+# Copy to ~/.config/legion-reboot/config (or point LEGION_REBOOT_CONFIG at it). All three scripts source it.
+# Written as ${VAR:=default} so a value set in the environment for one call still wins.
+
+# State folder: pending.json, boottime.txt, last-*.json.
+: "${REBOOT_STATE:=$HOME/.cache/legion-reboot}"
+
+# Repository that must have no uncommitted changes before a restart. Unset: the git repo of the current
+# directory. "none": no check.
+# : "${REBOOT_REPO:=$HOME/src/my-project}"
+
+# What the next session should run for the attempt; {id} becomes the attempt id. Stored in pending.json and
+# printed by reboot-detect.sh. Empty: "the check for <id>".
+: "${REBOOT_CHECK:=}"
+# : "${REBOOT_CHECK:=/boot-check {id}}"
+
+# 1: ask on screen (Reboot / Cancel, two minutes) before every restart.
+: "${REBOOT_ASK:=0}"
+
+# 1: quit GUI apps and clear the relaunch list before the restart. Apps in REBOOT_KEEP_APPS stay open
+# (comma separated; keep the terminal that runs the agent in it).
+: "${REBOOT_QUIT_APPS:=1}"
+: "${REBOOT_KEEP_APPS:=Terminal,Finder,System Events}"
+
+# Boot guards whose pending.json reboot-detect.sh and claude-autostart.command read, as name=folder pairs
+# separated by spaces (no spaces inside a folder path). A guard without a pending.json is skipped.
+: "${REBOOT_GUARDS:=gpu-guard=$HOME/.cache/gpu-guard wifi-guard=$HOME/.cache/wifi-guard}"
+
+# examples/claude-autostart.command only.
+# Folder Claude Code starts in at login (not ~, Claude Code does not save folder trust for the home directory).
+# : "${AUTOSTART_DIR:=$HOME/src/my-project}"
+# Arguments for claude. The default skips permission prompts, which is what lets the session work unattended;
+# set it to "--verbose" to keep the prompts.
+# : "${AUTOSTART_CLAUDE_ARGS=--dangerously-skip-permissions --verbose}"
+# Guard results that start a session with a prompt ("any" for every new result).
+: "${AUTOSTART_PROMPT_RESULTS:=rolled-back pass-after-rollback stuck failed-after-rollback}"
+# Extra text appended to the autostart prompt, for example where the session finds its notes.
+: "${AUTOSTART_NOTE:=}"

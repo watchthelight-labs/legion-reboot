@@ -1,0 +1,32 @@
+name: Report
+description: A bug, or a report from another Mac or macOS build
+body:
+  - type: input
+    id: machine
+    attributes:
+      label: Mac model and macOS build
+      placeholder: Legion 5 15IAX10 Hackintosh, macOS 26.7.1 (25G241)
+    validations:
+      required: true
+  - type: input
+    id: agent
+    attributes:
+      label: Agent and how it starts (hook in settings.json, autostart or by hand)
+      placeholder: Claude Code 2.x, SessionStart hook, autostart LaunchAgent
+    validations:
+      required: true
+  - type: textarea
+    id: banner
+    attributes:
+      label: The reboot-detect lines from the session, and the files in the state folder (pending.json, boottime.txt, newest last-*.json)
+      description: Leave out passwords and anything private in the reason text.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, what the banner said instead, and the output of legion-reboot (REFUSED, FAILED, exit code).
+    validations:
+      required: true
