@@ -29,8 +29,10 @@
 # examples/claude-autostart.command only.
 # Folder Claude Code starts in at login (not ~, Claude Code does not save folder trust for the home directory).
 # : "${AUTOSTART_DIR:=$HOME/src/my-project}"
-# Arguments for claude. The default skips permission prompts, which is what lets the session work unattended;
-# set it to "--verbose" to keep the prompts.
+# Arguments for claude. The default keeps the permission prompts, so an unattended session stops at the first
+# tool call it may not run. Opt in to unattended work with --dangerously-skip-permissions only on a machine where
+# you accept that the agent can run anything (the reboot itself is one such action).
+# : "${AUTOSTART_CLAUDE_ARGS=--verbose}"
 # : "${AUTOSTART_CLAUDE_ARGS=--dangerously-skip-permissions --verbose}"
 # Guard results that start a session with a prompt ("any" for every new result).
 : "${AUTOSTART_PROMPT_RESULTS:=rolled-back pass-after-rollback stuck failed-after-rollback}"

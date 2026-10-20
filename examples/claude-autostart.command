@@ -9,7 +9,7 @@ export PATH="$HOME/.local/bin:$PATH"
 S=${REBOOT_STATE:-$HOME/.cache/legion-reboot}
 GUARDS=${REBOOT_GUARDS:-gpu-guard=${GPU_GUARD_STATE:-$HOME/.cache/gpu-guard} wifi-guard=${WIFI_GUARD_STATE:-$HOME/.cache/wifi-guard}}
 RESULTS=${AUTOSTART_PROMPT_RESULTS:-rolled-back pass-after-rollback stuck failed-after-rollback}
-ARGS=(${=AUTOSTART_CLAUDE_ARGS---dangerously-skip-permissions --verbose})
+ARGS=(${=AUTOSTART_CLAUDE_ARGS---verbose})   # permission prompts stay on unless the config opts out
 # not ~: Claude Code never saves folder trust for the home directory
 cd "${AUTOSTART_DIR:?set AUTOSTART_DIR in the legion-reboot config}" || exit 1
 mkdir -p "$S"

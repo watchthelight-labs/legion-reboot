@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1
+
+- The autostart example keeps Claude Code's permission prompts by default; `--dangerously-skip-permissions` is an opt-in line in the config.
+
 ## 0.1.0 (2026-10-19)
 
 - First public version of the scripts used on the Legion 5 15IAX10 Hackintosh since 2026-10-17.
