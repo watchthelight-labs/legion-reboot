@@ -20,7 +20,7 @@
 # 1: quit GUI apps and clear the relaunch list before the restart. Apps in REBOOT_KEEP_APPS stay open
 # (comma separated; keep the terminal that runs the agent in it).
 : "${REBOOT_QUIT_APPS:=1}"
-: "${REBOOT_KEEP_APPS:=Terminal,Finder,System Events}"
+: "${REBOOT_KEEP_APPS:=Terminal,iTerm2,Finder,System Events}"
 
 # Boot guards whose pending.json reboot-detect.sh and claude-autostart.command read, as name=folder pairs
 # separated by spaces (no spaces inside a folder path). A guard without a pending.json is skipped.

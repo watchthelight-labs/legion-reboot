@@ -85,7 +85,7 @@ A guard is a boot-time daemon that watches a risky boot and rolls it back on its
   you ALL=(root) NOPASSWD: /sbin/shutdown -r now *
   ```
 
-- **Quitting apps.** By default every GUI app except Terminal and Finder is asked to quit (unsaved work gets the usual prompt and that app stays open), and the login relaunch list is cleared. `REBOOT_QUIT_APPS=0` turns that off; `REBOOT_KEEP_APPS` lists what stays.
+- **Quitting apps.** By default every GUI app except Terminal, iTerm2 and Finder is asked to quit (unsaved work gets the usual prompt and that app stays open), and the login relaunch list is cleared. `REBOOT_QUIT_APPS=0` turns that off; `REBOOT_KEEP_APPS` lists what stays.
 - `reboot-detect.sh` is read-only on the system; it writes only its state folder.
 
 ## How it works

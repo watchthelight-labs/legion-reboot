@@ -14,7 +14,7 @@ S=${REBOOT_STATE:-$HOME/.cache/legion-reboot}
 REPO=${REBOOT_REPO:-$(git rev-parse --show-toplevel 2>/dev/null)}
 [ "$REPO" = none ] && REPO=""
 CHECK=${REBOOT_CHECK:-}
-KEEP=${REBOOT_KEEP_APPS:-Terminal,Finder,System Events}
+KEEP=${REBOOT_KEEP_APPS:-Terminal,iTerm2,Finder,System Events}
 
 ID=${1:?usage: legion-reboot.sh <attempt id> [reason] [--force]}; REASON=${2:-}; FORCE=${3:-}
 mkdir -p "$S"

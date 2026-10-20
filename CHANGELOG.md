@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- iTerm2 is in the default keep list next to Terminal. The quit step used to close it, and with it the session running the script, so the restart never happened (Legion N-187, 2026-10-20).
+
 ## 0.1.1
 
 - The autostart example keeps Claude Code's permission prompts by default; `--dangerously-skip-permissions` is an opt-in line in the config.
