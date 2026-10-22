@@ -1,9 +1,5 @@
 # legion-reboot
 
-> **Heads up:** a good portion of this code is AI generated. I do understand how it works,
-> and I'm happy to explain any of it. If something looks wrong or you have a question,
-> open an issue or ping me on Discord (`watchthelight`).
-
 Two small shell scripts that let an AI coding agent (Claude Code here) restart the Mac it is running on for a staged boot attempt, and tell the next session that the restart happened and why.
 
 ## The problem
