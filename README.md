@@ -74,6 +74,7 @@ A guard is a boot-time daemon that watches a risky boot and rolls it back on its
 ## Safety
 
 - **Uncommitted changes stop it.** With modified or staged files in the repo it exits with `REFUSED` and restarts nothing. Untracked files do not count. `--force` skips the check.
+- **Other sessions stop it.** If another `claude` process runs outside the caller's own process chain, it exits 4 with `REFUSED` and lists them, because the restart would end those sessions mid-turn. `REBOOT_OTHERS_PROCS` changes the process names, `REBOOT_OTHERS_OK=1` restarts anyway.
 - **The password.** It is read from stdin once (silently if stdin is a terminal), piped to `sudo -S` and unset. It never appears in an argument, a file, `pending.json` or the output. `sudo -p ''` keeps the prompt out of the log. If the shutdown fails (wrong password, no rule), it removes the pending attempt and exits 4, so the next session is not told about a restart that never happened.
 - **A sudoers rule is cleaner** than handing the agent your password. Add this rule with `sudo visudo -f /etc/sudoers.d/shutdown` (replace `you` with your user name) and call `legion-reboot` with no password at all:
 

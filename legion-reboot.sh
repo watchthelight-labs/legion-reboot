@@ -21,6 +21,19 @@ mkdir -p "$S"
 if [ -n "$REPO" ] && [ -z "$FORCE" ] && [ -n "$(git -C "$REPO" status --porcelain 2>/dev/null | grep -v '^??')" ]; then
   echo "REFUSED: uncommitted changes in $REPO (commit first, or pass --force as the third argument)"; git -C "$REPO" status --short | head; exit 2
 fi
+# Other agent sessions die mid-turn with the restart, so refuse while any process named in REBOOT_OTHERS_PROCS runs
+# outside this caller's own process chain. REBOOT_OTHERS_OK=1 overrides it.
+MINE=" "; P=$$
+while [ "${P:-0}" -gt 1 ]; do MINE="$MINE$P "; P=$(ps -o ppid= -p "$P" | tr -d ' '); done
+OTHERS=""
+for name in ${REBOOT_OTHERS_PROCS:-claude}; do
+  for p in $(pgrep -x "$name"); do echo "$MINE" | grep -q " $p " || OTHERS="$OTHERS $p"; done
+done
+if [ -n "$OTHERS" ] && [ "${REBOOT_OTHERS_OK:-0}" != 1 ]; then
+  echo "REFUSED: other sessions are running; a restart would cut them off (REBOOT_OTHERS_OK=1 to restart anyway)"
+  for p in $OTHERS; do ps -o pid=,lstart=,command= -p "$p" | cut -c1-140; done
+  exit 4
+fi
 [ -z "$REPO" ] && echo "note: no git repository to check (set REBOOT_REPO); restarting without the uncommitted-changes check"
 BOOT=$(sysctl -n kern.boottime | sed -E 's/^\{ sec = ([0-9]+),.*/\1/')
 /usr/bin/python3 - "$ID" "$REASON" "$BOOT" "$S/pending.json" "$REPO" "$CHECK" <<'PY'

@@ -17,6 +17,11 @@
 # 1: ask on screen (Reboot / Cancel, two minutes) before every restart.
 : "${REBOOT_ASK:=0}"
 
+# Restart is refused (exit 4) while a process with one of these names runs outside the caller's own process chain,
+# because a restart cuts such sessions off mid-turn. REBOOT_OTHERS_OK=1 restarts anyway.
+: "${REBOOT_OTHERS_PROCS:=claude}"
+: "${REBOOT_OTHERS_OK:=0}"
+
 # 1: quit GUI apps and clear the relaunch list before the restart. Apps in REBOOT_KEEP_APPS stay open
 # (comma separated; keep the terminal that runs the agent in it).
 : "${REBOOT_QUIT_APPS:=1}"

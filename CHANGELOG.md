@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- `legion-reboot.sh` refuses (exit 4) while another `claude` session runs outside its own process chain; a restart cut two such sessions off on the Legion (2026-10-22). `REBOOT_OTHERS_PROCS` and `REBOOT_OTHERS_OK` in the config.
+- `examples/claude-autostart.command` closes idle Terminal windows left from before the reboot and keeps its own window in front.
+
 ## 0.1.2
 
 - iTerm2 is in the default keep list next to Terminal. The quit step used to close it, and with it the session running the script, so the restart never happened (Legion N-187, 2026-10-20).
