@@ -13,6 +13,45 @@ ARGS=(${=AUTOSTART_CLAUDE_ARGS---verbose})   # permission prompts stay on unless
 # not ~: Claude Code never saves folder trust for the home directory
 cd "${AUTOSTART_DIR:?set AUTOSTART_DIR in the legion-reboot config}" || exit 1
 mkdir -p "$S"
+# Close Terminal windows left from before (restored at login, or shells whose session ended) and keep this one in
+# front. Only idle tabs are closed: a window still running claude or anything else stays. Run again later because
+# Terminal restores windows a few seconds after login.
+MYTTY=$(tty)
+tidy_windows() {
+  /usr/bin/osascript - "$MYTTY" <<'OSA' >/dev/null 2>&1
+on run argv
+  set mine to item 1 of argv
+  tell application "Terminal"
+    set keepId to missing value
+    set ids to id of every window
+    repeat with i from 1 to count ids
+      set wid to item i of ids
+      set w to window id wid
+      set quiet to true
+      set hasMine to false
+      repeat with t in (every tab of w)
+        if (tty of t) is mine then set hasMine to true
+        if busy of t then set quiet to false
+      end repeat
+      if hasMine then
+        set keepId to wid
+      else if quiet then
+        -- close does nothing on restored windows; a clean shell exit closes them (profile: close if exited cleanly)
+        repeat with t in (every tab of w)
+          do script "exit" in t
+        end repeat
+      end if
+    end repeat
+    if keepId is not missing value then
+      set index of window id keepId to 1
+      activate
+    end if
+  end tell
+end run
+OSA
+}
+tidy_windows
+( sleep 6; tidy_windows; sleep 15; tidy_windows ) &!
 PROMPT=""
 if [ -f "$S/pending.json" ]; then
   R=$(/usr/bin/python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(d["attempt"]); print(d.get("check",""))' "$S/pending.json" 2>/dev/null)
