@@ -32,7 +32,7 @@ done
 if [ -n "$OTHERS" ] && [ "${REBOOT_OTHERS_OK:-0}" != 1 ]; then
   echo "REFUSED: other sessions are running; a restart would cut them off (REBOOT_OTHERS_OK=1 to restart anyway)"
   for p in $OTHERS; do ps -o pid=,lstart=,command= -p "$p" | cut -c1-140; done
-  exit 4
+  exit 5
 fi
 [ -z "$REPO" ] && echo "note: no git repository to check (set REBOOT_REPO); restarting without the uncommitted-changes check"
 BOOT=$(sysctl -n kern.boottime | sed -E 's/^\{ sec = ([0-9]+),.*/\1/')

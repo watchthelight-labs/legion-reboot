@@ -9,7 +9,7 @@ When the agent works on the machine it is testing (a Hackintosh, a kext, a boot 
 - `legion-reboot.sh <id> "<reason>"` refuses to restart while the project repo has uncommitted changes, writes the pending attempt (id, reason, time, boot time, repo commit, the check to run) to `pending.json`, quits the open apps so they do not all come back at login, and runs `shutdown -r now`.
 - `reboot-detect.sh` is a Claude Code SessionStart hook. It compares the kernel boot time with the one the last session saw. Same boot: it prints nothing. New boot: it prints a `REBOOT DETECTED` banner with the pending attempt, a warning if more than one restart happened since it was recorded, the result of any boot guard that left a state file, and the number of crash reports since boot. Hook output lands in the session's context, so the agent reads it before your first message.
 
-`examples/claude-autostart.command` (optional) opens Terminal at login and resumes the last Claude Code session with a prompt to run the check, so the work goes on without anyone typing.
+`examples/claude-autostart.command` (optional) opens Terminal at login and resumes the last Claude Code session with a prompt to run the check, so the work goes on without anyone typing. It also closes every idle Terminal window that is not its own, which includes shells you opened yourself, so read its header before you use it.
 
 ## Status
 
@@ -74,7 +74,7 @@ A guard is a boot-time daemon that watches a risky boot and rolls it back on its
 ## Safety
 
 - **Uncommitted changes stop it.** With modified or staged files in the repo it exits with `REFUSED` and restarts nothing. Untracked files do not count. `--force` skips the check.
-- **Other sessions stop it.** If another `claude` process runs outside the caller's own process chain, it exits 4 with `REFUSED` and lists them, because the restart would end those sessions mid-turn. `REBOOT_OTHERS_PROCS` changes the process names, `REBOOT_OTHERS_OK=1` restarts anyway.
+- **Other sessions stop it.** If another `claude` process runs outside the caller's own process chain, it exits 5 with `REFUSED` and lists them, because the restart would end those sessions mid-turn. `REBOOT_OTHERS_PROCS` changes the process names, `REBOOT_OTHERS_OK=1` restarts anyway.
 - **The password.** It is read from stdin once (silently if stdin is a terminal), piped to `sudo -S` and unset. It never appears in an argument, a file, `pending.json` or the output. `sudo -p ''` keeps the prompt out of the log. If the shutdown fails (wrong password, no rule), it removes the pending attempt and exits 4, so the next session is not told about a restart that never happened.
 - **A sudoers rule is cleaner** than handing the agent your password. Add this rule with `sudo visudo -f /etc/sudoers.d/shutdown` (replace `you` with your user name) and call `legion-reboot` with no password at all:
 
