@@ -28,7 +28,7 @@ PY
 else
   echo "[reboot-detect] no pending attempt was recorded (a manual restart, a crash or a power cut); check the newest attempt."
 fi
-# Boot guards (for example github.com/watchthelight-labs/gpu-guard and wifi-guard) keep their own pending.json;
+# Boot guards (for example github.com/watchthelight-labs/WTLGpuGuard and wifi-guard) keep their own pending.json;
 # print a guard's line only when that file exists.
 for g in $GUARDS; do
   name=${g%%=*}; dir=${g#*=}

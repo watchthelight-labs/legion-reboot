@@ -1,4 +1,6 @@
-# legion-reboot
+# WTLStagedReboot
+
+Renamed from `legion-reboot` on 2026-10-31; the command is still `legion-reboot`. Old links redirect here.
 
 Two small shell scripts that let an AI coding agent (Claude Code here) restart the Mac it is running on for a staged boot attempt, and tell the next session that the restart happened and why.
 
@@ -20,7 +22,7 @@ In daily use on a Lenovo Legion 5 15IAX10 Hackintosh (macOS 26.7.1, 25G241) sinc
 Needs macOS with the Xcode Command Line Tools (for `/usr/bin/python3` and `git`).
 
 ```
-git clone https://github.com/watchthelight-labs/legion-reboot ~/src/legion-reboot
+git clone https://github.com/watchthelight-labs/WTLStagedReboot ~/src/legion-reboot
 ~/src/legion-reboot/install.sh          # links legion-reboot and reboot-detect into ~/.local/bin, copies the config
 ```
 
@@ -69,7 +71,7 @@ After the restart, the next session starts with something like:
 
 ### Boot guards
 
-A guard is a boot-time daemon that watches a risky boot and rolls it back on its own when nobody confirms it. [gpu-guard](https://github.com/watchthelight-labs/gpu-guard) and [wifi-guard](https://github.com/watchthelight-labs/wifi-guard) work that way. Each keeps a `pending.json` with the attempt, its result and the reason. `reboot-detect.sh` prints one line per guard listed in `REBOOT_GUARDS` whose `pending.json` exists, and skips the rest, so without guards you see nothing extra.
+A guard is a boot-time daemon that watches a risky boot and rolls it back on its own when nobody confirms it. [WTLGpuGuard](https://github.com/watchthelight-labs/WTLGpuGuard) and [WTLWifiGuard](https://github.com/watchthelight-labs/WTLWifiGuard) work that way. Each keeps a `pending.json` with the attempt, its result and the reason. `reboot-detect.sh` prints one line per guard listed in `REBOOT_GUARDS` whose `pending.json` exists, and skips the rest, so without guards you see nothing extra.
 
 ## Safety
 
